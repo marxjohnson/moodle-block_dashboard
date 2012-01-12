@@ -13,6 +13,10 @@ class block_dashboard extends block_base {
         );
     }
 
+    function specialization() {
+        $this->title = isset($this->config->title) ? format_string($this->config->title) : format_string(get_string('pluginname', 'block_dashboard'));
+    }
+
     public function instance_allow_multiple() {
         return false;
     }
@@ -63,6 +67,24 @@ class block_dashboard extends block_base {
 
         $content .= $hw::tag('div', '', array('class' => 'clearfix'));
 
+        if (isset($this->config->whatshot)) {
+            $content .= $OUTPUT->heading(get_string('whatshot', 'block_dashboard'), 3);
+            // rewrite url
+            $this->config->whatshot['text'] = file_rewrite_pluginfile_urls($this->config->whatshot['text'],
+                                                                           'pluginfile.php',
+                                                                           $this->context->id,
+                                                                           'block_dashboard',
+                                                                           'content',
+                                                                           NULL);
+            // Default to FORMAT_HTML which is what will have been used before the
+            // editor was properly implemented for the block.
+            $format = FORMAT_HTML;
+            // Check to see if the format has been properly set on the config
+            if (isset($this->config->whatshot['format'])) {
+                $format = $this->config->whatshot['format'];
+            }
+            $content .= format_text($this->config->whatshot['text'], $format, array('trusted' => true));
+        }
 
         $this->content->text = $content;
     }

@@ -52,20 +52,18 @@ class block_dashboard extends block_base {
         $reviewurl = new moodle_url('/local/progressreview/user.php', array('userid' => $USER->id));
         $handbookurl = new moodle_url('/pluginfile.php/88573/block_html/content/Student%20Info%20booklet%202011_2012.pdf');
 
+        $content = '';
         $hw = 'html_writer';
-        $row->cells[] = $hw::link($timetableurl, $timetableicon.$timetablelabel);
-        $row->cells[] = $hw::link($attendanceurl, $attendanceicon.$attendancelabel);
-        $row->cells[] = $hw::link($gradesurl, $gradesicon.$gradeslabel);
+        $content .= $OUTPUT->container($hw::link($timetableurl, $timetableicon.$timetablelabel), 'dashcell');
+        $content .= $OUTPUT->container($hw::link($attendanceurl, $attendanceicon.$attendancelabel), 'dashcell');
+        $content .= $OUTPUT->container($hw::link($gradesurl, $gradesicon.$gradeslabel), 'dashcell');
+        $content .= $OUTPUT->container($hw::link($reviewurl, $reviewicon.$reviewlabel), 'dashcell');
+        $content .= $OUTPUT->container($hw::link($examsurl, $examsicon.$examslabel), 'dashcell');
+        $content .= $OUTPUT->container($hw::link($handbookurl, $handbookicon.$handbooklabel), 'dashcell');
 
-        $table->data[] = $row;
-        $row = new html_table_row();
+        $content .= $hw::tag('div', '', array('class' => 'clearfix'));
 
-        $row->cells[] = $hw::link($reviewurl, $reviewicon.$reviewlabel);
-        $row->cells[] = $hw::link($examsurl, $examsicon.$examslabel);
-        $row->cells[] = $hw::link($handbookurl, $handbookicon.$handbooklabel);
 
-        $table->data[] = $row;
-
-        $this->content->text = $hw::table($table);
+        $this->content->text = $content;
     }
 }

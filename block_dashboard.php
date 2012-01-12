@@ -68,7 +68,7 @@ class block_dashboard extends block_base {
         $content .= $hw::tag('div', '', array('class' => 'clearfix'));
 
         if (isset($this->config->whatshot)) {
-            $content .= $OUTPUT->heading(get_string('whatshot', 'block_dashboard'), 3);
+            $content .= $OUTPUT->heading(get_string('whatshot', 'block_dashboard'), 2);
             // rewrite url
             $this->config->whatshot['text'] = file_rewrite_pluginfile_urls($this->config->whatshot['text'],
                                                                            'pluginfile.php',
